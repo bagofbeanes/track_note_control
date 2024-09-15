@@ -11,6 +11,7 @@ Provides scenecontrol functions for transforming/modifying the track and notes i
 -   Note group scaling (generic and individual)
 -   Note translation
 -   Note coloring (rgb and alpha)
+-   Note rotation (degrees)
 <br></br>
 -   Track lane count modification
 -   Track translation
@@ -78,6 +79,19 @@ Note_Color(4, rgba(0,0,0,100), 0, 1000, { add_rgba = rgba(1,1,1,0), easing = 'si
 ```
 >**Additional information**
 >-  `add_rgba` is a toggle between 0 and 1 on each color channel that controls if the color value should override or be added to the current color value. Its default value is `rgba(1,1,1,0)`.
+---
+
+### > Note rotation
+Rotates all notes in a note group on x, y, z axes, in degrees.
+-   Function: `Note_Rotate(group, rotation_xyz, start_time, end_time, options)`
+-   Options: `{ add_xyz, easing }`
+-   Example: 
+```lua
+-- Make note group "stand up"
+Note_Rotate(4, xyz(90,0,0), 0, 1000, { add_xyz = xyz(0,0,0), easing = 'b' } )
+```
+>**Additional information**
+>-  `add_xyz` is a toggle between 0 and 1 on each axis that controls if the rotation should override or be added to the current rotation. Its default value is `xyz(0,0,0)`.
 ---
 
 ### > Track scaling:
@@ -234,6 +248,8 @@ end)
 ---
 
 ### Utility variables
+-   `DEFAULT_TIME` (constant): -3000ms into the song (used for getting the default values of channels)
+-   `START_TIME` (constant): -2001ms into the song (start time of the chart, recommended to place starting scenecontrol functions here)
 -   `LANE_WIDTH` (constant): Width of one lane. Can be used for translating objects by a number of lanes.
 -   `TRACK_SCALE_LANES` (keychannel): Can be used to get the number of lanes at a given point in time.
 -   `CRITICAL_LINE_TRANSLATIONY` (constant): The default y offset of the critical (floor) line.
