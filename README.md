@@ -3,7 +3,7 @@ Provides scenecontrol functions for transforming/modifying the track and notes i
 
 ## How to use
 1. Create a "Scenecontrol" (case-sensitive) folder within your chart folder
-2. Download the .zip containing the scenecontrol from the Releases tab.
+2. [Download the latest .zip](https://github.com/bagofbeanes/track_note_control/releases)
 3. Extract the .zip contents into the "Scenecontrol" folder
 4. Use `note\controls.lua` and `track\controls.lua` for note group and track control respectively.
 
