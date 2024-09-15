@@ -17,6 +17,10 @@ local function GetNoteGroup(group)
         tg.translationY = SetDefault(0)
         tg.translationZ = SetDefault(0)
 
+        tg.rotationX = SetDefault(0)
+        tg.rotationY = SetDefault(0)
+        tg.rotationZ = SetDefault(0)
+
         tg.scaleX = SetDefault(1)
         tg.scaleY = SetDefault(1)
         tg.scaleIndividualX = SetDefault(1)
@@ -59,7 +63,6 @@ local noteScaleOptionsDefault =
 ---@param options noteScaleOptions -- Scaling options -> { easing }
 function Note_Scale(group, scale_xy, start_time, end_time, options)
 
-    scale_xy = scale_xy or xy(0,0)
     local x = scale_xy.x
     local y = scale_xy.y
 
@@ -96,7 +99,6 @@ local noteScaleIndividualOptionsDefault =
 ---@param options noteScaleIndividualOptions -- Scaling options -> { judge_xy, easing }
 function Note_ScaleInd(group, scale_xy, start_time, end_time, options)
 
-    scale_xy = scale_xy or xy(1,1)
     local x = scale_xy.x
     local y = scale_xy.y
 
@@ -104,7 +106,7 @@ function Note_ScaleInd(group, scale_xy, start_time, end_time, options)
     options = MergeTables(noteScaleIndividualOptionsDefault, options) or noteScaleIndividualOptionsDefault
     local easing = options.easing
 
-    local judge_xy = options.judge_xy or xy(0,0)
+    local judge_xy = options.judge_xy
     local judge_x = NumberToBool(judge_xy.x)
     local judge_y = NumberToBool(judge_xy.y)
     -------------
@@ -144,7 +146,6 @@ local noteTranslateOptionsDefault =
 ---@param options noteTranslateOptions -- Translation options -> { add_xyz, judge_xyz, easing }
 function Note_Translate(group, translation_xyz, start_time, end_time, options)
 
-    translation_xyz = translation_xyz or xyz(0,0,0)
     local x = translation_xyz.x
     local y = translation_xyz.y
     local z = translation_xyz.z
@@ -153,12 +154,12 @@ function Note_Translate(group, translation_xyz, start_time, end_time, options)
     options = MergeTables(noteTranslateOptionsDefault, options) or noteTranslateOptionsDefault
     local easing = options.easing
 
-    local add_xyz = options.add_xyz or xyz(0,0,0)
+    local add_xyz = options.add_xyz
     local add_x = NumberToBool(add_xyz.x)
     local add_y = NumberToBool(add_xyz.y)
     local add_z = NumberToBool(add_xyz.z)
 
-    local judge_xyz = options.judge_xyz or xyz(0,0,0)
+    local judge_xyz = options.judge_xyz
     local judge_x = NumberToBool(judge_xyz.x)
     local judge_y = NumberToBool(judge_xyz.y)
     local judge_z = NumberToBool(judge_xyz.z)
@@ -204,7 +205,6 @@ local noteColorOptionsDefault =
 ---@param options noteColorOptions -- Coloring options -> { add_rgba, easing }
 function Note_Color(group, color_rgba, start_time, end_time, options)
 
-    color_rgba = color_rgba or rgba(255, 255, 255, 255)
     local r = color_rgba.r
     local g = color_rgba.g
     local b = color_rgba.b
@@ -214,7 +214,7 @@ function Note_Color(group, color_rgba, start_time, end_time, options)
     options = MergeTables(noteColorOptionsDefault, options) or noteColorOptionsDefault
     local easing = options.easing
 
-    local add_rgba = options.add_rgba or rgba(0, 0, 0, 0)
+    local add_rgba = options.add_rgba
     local add_r = NumberToBool(add_rgba.r)
     local add_g = NumberToBool(add_rgba.g)
     local add_b = NumberToBool(add_rgba.b)
@@ -234,5 +234,47 @@ function Note_Color(group, color_rgba, start_time, end_time, options)
     end
     if (a > 0 or not add_a) then
         KeyTween(tg.colorA, start_time, end_time, a, add_a, easing)
+    end
+end
+
+---------------------------------------------------------------------/
+-- NOTE ROTATE --                                                    |
+---------------------------------------------------------------------\
+
+---@class noteRotateOptions
+---@field add_xyz XYZ -- Whether or not to add to the current value or set it for each axis (xyz(0,0,0) by default)
+---@field easing ('linear' | 'l' | 'inconstant' | 'inconst' | 'cnsti' | 'outconstant' | 'outconst' | 'cnsto' | 'inoutconstant' | 'inoutconst' | 'cnstb' | 'insine' | 'si' | 'outsine' | 'so' | 'inoutsine' | 'b' | 'inquadratic' | 'inquad' | '2i' | 'outquadratic' | 'outquad' | '2o' | 'inoutquadratic' | 'inoutquad' | '2b' | 'incubic' | '3i' | 'outcubic' | 'outcube' | '3o' | 'inoutcubic' | 'inoutcube' | '3b' | 'inquartic' | 'inquart' | '4i' | 'outquartic' | 'outquart' | '4o' | 'inoutquartic' | 'inoutquart' | '4b' | 'inquintic' | 'inquint' | '5i' | 'outquintic' | 'outquint' | '5o' | 'inoutquintic' | 'inoutquint' | '5b' | 'inexponential' | 'inexpo' | 'exi' | 'outexponential' | 'outexpo' | 'exo' | 'inoutexponential' | 'inoutexpo' | 'exb' | 'incircle' | 'incirc' | 'ci' | 'outcircle' | 'outcirc' | 'co' | 'inoutcircle' | 'inoutcirc' | 'cb' | 'inback' | 'bki' | 'outback' | 'bko' | 'inoutback' | 'bkb' | 'inelastic' | 'eli' | 'outelastic' | 'elo' | 'inoutelastic' | 'elb' | 'inbounce' | 'bni' | 'outbounce' | 'bno' | 'inoutbounce' | 'bnb')
+local noteRotateOptionsDefault = 
+{
+    add_xyz = xyz(0,0,0),
+    easing = 'l'
+}
+
+function Note_Rotate(group, rotation_xyz, start_time, end_time, options)
+
+    local x = rotation_xyz.x
+    local y = rotation_xyz.y
+    local z = rotation_xyz.z
+
+    -- options --
+    options = MergeTables(noteTranslateOptionsDefault, options) or noteTranslateOptionsDefault
+    local easing = options.easing
+
+    local add_xyz = options.add_xyz
+    local add_x = NumberToBool(add_xyz.x)
+    local add_y = NumberToBool(add_xyz.y)
+    local add_z = NumberToBool(add_xyz.z)
+    ---
+    
+    local tg = GetNoteGroup(group)
+    
+    if (x ~= 0 or not add_x) then
+        KeyTween(tg.rotationX, start_time, end_time, x, add_x, easing)
+    end
+    if (y ~= 0 or not add_y) then
+        KeyTween(tg.rotationY, start_time, end_time, y, add_y, easing)
+    end
+    if (z ~= 0 or not add_z) then
+        KeyTween(tg.rotationZ, start_time, end_time, z, add_z, easing)
     end
 end
