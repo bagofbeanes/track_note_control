@@ -38,7 +38,7 @@ function Track_Scale(lane_count, start_time, end_time, options)
     lane_count = math.clamp(lane_count, 0.00001, MAX_LANE_COUNT)
 
     -- scale track and beatlines --
-    local track_width = 0.446285 * lane_count -- USING THIS VERY SPECIFIC VALUE INSTEAD OF TRACKSCALEX_ONELANE BECAUSE THIS DOESNT CAUSE IT TO OVERHANG DONT ASK HOW OR WHY
+    local track_width = 0.4462875 * lane_count -- USING THIS VERY SPECIFIC VALUE INSTEAD OF TRACKSCALEX_ONELANE BECAUSE THIS DOESNT CAUSE IT TO OVERHANG DONT ASK HOW OR WHY
     local beatlines_width = beatlinesScaleX_OneLane * lane_count
 
     KeyTween(Track.scaleX, start_time, end_time, track_width, false, easing)
@@ -126,7 +126,6 @@ local trackTranslateOptions_Default =
 ---@param options trackTranslateOptions -- Translation options -> { add_xyz, easing }
 function Track_Translate(translation_xyz, start_time, end_time, options)
 
-    translation_xyz = translation_xyz or xyz(0,0,0)
     local x = translation_xyz.x
     local y = translation_xyz.y
     local z = translation_xyz.z
@@ -199,7 +198,6 @@ local trackColorOptions_Default = {
 ---@param options trackColorOptions -- Coloring options -> { modify -> { track, edge_left, edge_right, divide_lines }, add_rgba, easing }
 function Track_Color(color_rgba, start_time, end_time, options)
 
-    color_rgba = color_rgba or rgba(0,0,0,255)
     local r = color_rgba.r
     local g = color_rgba.g
     local b = color_rgba.b
@@ -277,7 +275,6 @@ local inputLineScaleOptions_Default =
 ---@param options inputLineScaleOptions -- Translation options -> { modify -> { critical_line, sky_input_line, sky_input_label }, add_xy, easing }
 function InputLine_Scale(scale_xy, start_time, end_time, options)
 
-    scale_xy = scale_xy or xy(0,0)
     local x = scale_xy.x
     local y = scale_xy.y
 
@@ -348,7 +345,6 @@ local inputLineTranslateOptions_Default =
 ---@param options inputLineTranslateOptions -- Translation options -> { modify -> { critical_line, sky_input_line, sky_input_label }, add_xy, easing }
 function InputLine_Translate(translation_xyz, start_time, end_time, options)
 
-    translation_xyz = translation_xyz or xyz(0,0,0)
     local x = translation_xyz.x
     local y = translation_xyz.y
     local z = translation_xyz.z
@@ -432,7 +428,6 @@ local inputLineColorOptions_Default = {
 ---@param options inputLineColorOptions -- Coloring options -> { modify -> { critical_line, sky_input_line, sky_input_label }, add_rgba, easing }
 function InputLine_Color(color_rgba, start_time, end_time, options)
 
-    color_rgba = color_rgba or rgba(0,0,0,255)
     local r = color_rgba.r
     local g = color_rgba.g
     local b = color_rgba.b
