@@ -27,7 +27,9 @@ Provides scenecontrol functions for transforming/modifying the track and notes i
 -   Other utility features for ease of use
 
 ## Documentation
-You can omit the `options` array, the `modify` array or any of their elements as they use the default values if not specified.
+
+-    Some functions have `options` as a parameter. This is an array that stores options unique to that function.
+-    You can omit the `options` array, the `modify` array or any of their elements as they use the default values if not specified.
 
 ### Main functions
 ---
@@ -197,7 +199,7 @@ FloorInput_Translate(0, 5, 0, 1000, { easing = 'so' })
 ---
 
 ### > Sky input boundary modification
-Translates the upper boundary of the sky input.
+Translates the upper boundary of the sky input. `y` = 0 is the default sky input boundary.
 -   Function: `SkyInput_Translate(y, start_time, end_time, options)`
 -   Options: `{ add_y, easing }`
 -   Example:
@@ -224,7 +226,7 @@ Beatlength(2)
 ---
 
 ### > Repeat
-Repeats a function a number of times.
+Repeats a function a number of times. `i_times` is the number of iterations and `func` is the function to repeat.
 -   Function: `Repeat(start_time, end_time, i_times, func)`
 -   Example:
 ```lua
@@ -234,10 +236,12 @@ Repeat(0, 1000, 2, function(start_time, i)
     Track_Translate(1, xyz(1,0,0), start_time, start_time + Beatlength(0.25), { add_xyz = xyz(1,0,0) })
 end)
 ```
+>**Additional information**
+>-  The `func` parameter requires a function with a start time (`start_time`/`timing` etc.) and an iteration variable (`iteration`/ `i` etc.) as its parameters. As seen in the example, this is recommended to be provided as such: `function(start_time, i) ... end)`
 ---
 
 ### > RepeatUntil
-Repeats a function until a point in time, with each iteration lasting a given amount of time.
+Repeats a function until a point in time. Each iteration lasts an `i_length` amount of time and `func` is the function to repeat.
 -   Function: `RepeatUntil(start_time, end_time, i_length, func)`
 -   Example:
 ```lua
@@ -245,6 +249,8 @@ RepeatUntil(0, 2000, 500, function(start_time, i)
     Track_Color(rgba(0,0,0,10), start_time, start_time + Beatlength(0.25), { add_rgba = rgba(1,1,1,1) })
 end)
 ```
+>**Additional information**
+>-  The `func` parameter requires a function with a start time (`start_time`/`timing` etc.) and an iteration variable (`iteration`/ `i` etc.) as its parameters. As seen in the example, this is recommended to be provided as such: `function(start_time, i) ... end)`
 ---
 
 ### Utility variables
